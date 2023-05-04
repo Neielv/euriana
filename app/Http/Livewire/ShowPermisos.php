@@ -48,7 +48,11 @@ class ShowPermisos extends Component
 
     public function render()
     {        
+
+        $user = auth()->user();
+      
         $permisos = Permiso::where('motivo', 'like', '%' . $this->search . '%')
+        ->where('servidor_id','=',$user->servidor->id)
         ->orderBy($this->sort, $this->direction)
         ->Paginate($this->cant);       
         return view('livewire.show-permisos',compact('permisos'));

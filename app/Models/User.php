@@ -80,6 +80,12 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\cliente');
     }
 
+    public function servidor()
+    {
+        return $this->hasOne('App\Models\servidor');
+    }
+
+
 
   
  }

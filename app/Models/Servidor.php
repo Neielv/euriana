@@ -28,6 +28,10 @@ class Servidor extends Model
         return $this->hasMany('App\Models\permiso');        
     }
 
+    public function user()
+    {
+        return $this->hasOne('App\Models\user');
+    }
     protected $table = 'servidores';     
    
 }
