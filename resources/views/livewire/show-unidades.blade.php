@@ -68,11 +68,19 @@
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Contacto
+                                Siglas
                             </th>
                             <th scope="col"
                                 class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Teléfono
+                                Proceso
+                            </th>
+                            <th scope="col"
+                                class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Padre
+                            </th>
+                            <th scope="col"
+                                class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Responsable
                             </th>
                             
                             <th scope="col" class="relative px-6 py-3">
@@ -81,36 +89,41 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach ($ciudades as $ciudad)
+                        @foreach ($unidades as $unidad)
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="ml-4">
                                             <div class="text-sm font-medium text-gray-900">
-                                                {{ $ciudad->codigo }}
+                                                {{ $unidad->id }}
                                             </div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900"> {{ $ciudad->nombre }}</div>
-
+                                    <div class="text-sm text-gray-900"> {{ $unidad->nombre }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ $ciudad->contacto }}
+                                    {{ $unidad->siglas }}
 
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $ciudad->telefono }}
+                                    {{ $unidad->proceso->nombre }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">                                   
+                                    {{($unidad->parent) ? $unidad->parent->nombre : '-'  }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ $unidad->servidor->nombre }}
                                 </td>
                                  <td class="px-6 py-4 whitespace-nowrap ext-sm font-medium flex">
-                                   <a class="btn btn-green" wire:click="edit({{ $ciudad }})">
+                                   <a class="btn btn-green" wire:click="edit({{ $unidad }})">
                                         <i class="fas fa-edit">
                                         </i>
                                     </a>
 
                                  
-                                    <a class="btn btn-red ml-2" wire:click="$emit('borrarCiudad',{{ $ciudad->id }})">
+                                    <a class="btn btn-red ml-2" wire:click="$emit('borrarCiudad',{{ $unidad->id }})">
                                         <i class="fas fa-trash">
 
                                         </i>
@@ -128,9 +141,9 @@
                 No se encontraron coincidencias
             </div>
         @endif
-        @if ($ciudades->hasPages())
+        @if ($unidades->hasPages())
             <div class="px-6 py-3">
-                {{ $ciudades->links() }}
+                {{ $unidades->links() }}
             </div>
         @endif
     </div>

@@ -40,6 +40,9 @@
                             {{ __('Traslados') }}
                         </x-jet-nav-link>                        
                     @endif
+                    <x-jet-nav-link href="{{ route('unidades') }}" :active="request()->routeIs('unidades')">
+                        {{ __('Unidades') }}
+                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('permisos') }}" :active="request()->routeIs('permisos')">
                         {{ __('Permisos') }}
                     </x-jet-nav-link>

@@ -15,4 +15,10 @@ class Proceso extends Model
     {
         return $this->hasMany('App\Models\Servidor');
     }
+
+    public function unidad()
+    {
+        return $this->hasMany('App\Models\Unidad');
+    }
+    
 }

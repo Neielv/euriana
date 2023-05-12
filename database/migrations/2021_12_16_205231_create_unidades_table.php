@@ -18,14 +18,20 @@ class CreateUnidadesTable extends Migration
             $table->string('nombre');
             $table->string('siglas')->nullable();
             $table->unsignedBigInteger('proceso_id')->nullable();            
-            $table->integer('parent_id')->nullable();        
-            $table->integer('servidor_id')->nullable();            
+            $table->unsignedBigInteger('parent_id')->nullable();        
+            $table->unsignedBigInteger('servidor_id')->nullable();            
 
             $table->foreign('proceso_id')
             ->references('id')->on('procesos')
             ->onDelete('set null');
 
-           
+            $table->foreign('parent_id')
+            ->references('id')->on('unidades')
+            ->onDelete('cascade');          
+          
+            $table->foreign('servidor_id')
+            ->references('id')->on('servidores')
+            ->onDelete('set null');
 
             $table->timestamps();
         });

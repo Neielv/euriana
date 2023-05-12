@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Livewire;
+use App\Models\Unidad;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -19,6 +20,9 @@ class ShowUnidades extends Component
     
     public function render()
     {
-        return view('livewire.show-unidades');
+        $unidades = Unidad::where('nombre', 'like', '%' . $this->search . '%')
+        ->orderBy($this->sort, $this->direction)
+        ->Paginate($this->cant);
+        return view('livewire.show-unidades',compact('unidades'));
     }
 }
