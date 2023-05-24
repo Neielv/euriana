@@ -29,9 +29,9 @@ class CreateUnidadesTable extends Migration
             ->references('id')->on('unidades')
             ->onDelete('cascade');          
           
-            $table->foreign('servidor_id')
+            /*$table->foreign('servidor_id')
             ->references('id')->on('servidores')
-            ->onDelete('set null');
+            ->onDelete('set null');*/
 
             $table->timestamps();
         });

@@ -2,7 +2,7 @@
     {{-- Knowing others is intelligence; knowing yourself is true wisdom. --}}
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Ciudades-Bodegas') }}
+            {{ __('Unidades') }}
         </h2>
     </x-slot>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -29,7 +29,7 @@
                     </x-input>
             </x-jet-label>
             <div class="min-w-min">
-                @livewire('create-ciudad')
+                @livewire('create-unidad')
             </div>
 
         </div>
@@ -114,20 +114,17 @@
                                     {{($unidad->parent) ? $unidad->parent->nombre : '-'  }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $unidad->servidor->nombre }}
+                                    {{ $unidad->servidor_nombre }}
                                 </td>
                                  <td class="px-6 py-4 whitespace-nowrap ext-sm font-medium flex">
                                    <a class="btn btn-green" wire:click="edit({{ $unidad }})">
                                         <i class="fas fa-edit">
                                         </i>
-                                    </a>
-
-                                 
-                                    <a class="btn btn-red ml-2" wire:click="$emit('borrarCiudad',{{ $unidad->id }})">
+                                    </a>                                 
+                                    <!--<a class="btn btn-red ml-2" wire:click="$emit('borrarCiudad',{{ $unidad->id }})">
                                         <i class="fas fa-trash">
-
                                         </i>
-                                    </a>
+                                    </a>-->
                                 </td>
                             </tr>
                         @endforeach
@@ -150,29 +147,40 @@
 
     <x-jet-dialog-modal wire:model='open_edit'>
         <x-slot name="title">
-            Editar la ciudad:
+            Editar la Unidad:
         </x-slot>
         <x-slot name="content">
             <div class="mb-4">
                 <x-jet-label value="Código" />
-                <x-jet-input wire:model="ciudad.codigo" type="text" />
-                <x-jet-input-error for="ciudad.codigo" />
+                <x-jet-input wire:model="unidad.id" type="text" readonly  />
+                <x-jet-input-error for="unidad.id" />
             </div>
             <div class="mb-4">
                 <x-jet-label value="Nombre" />
-                <x-jet-input wire:model="ciudad.nombre" type="text" class="w-full" />
-                <x-jet-input-error for="ciudad.nombre" />
+                <x-jet-input wire:model="unidad.nombre" type="text" class="w-full" />
+                <x-jet-input-error for="unidad.nombre" />
             </div>
             <div class="mb-4">
-                <x-jet-label value="Dirección" />
-                <x-jet-input wire:model="ciudad.contacto" type="text" class="w-full" />
-                <x-jet-input-error for="ciudad.contacto" />
+                <x-jet-label value="Siglas" />
+                <x-jet-input wire:model="unidad.siglas" type="text" class="w-full" />
+                <x-jet-input-error for="unidad.siglas" />
             </div>
-            <div class="mb-4">
-                <x-jet-label value="Teléfono" />
-                <x-jet-input wire:model="ciudad.telefono" type="text" />
-                <x-jet-input-error for="ciudad.telefono" />
-            </div>
+
+            <h2>Proceso</h2>
+          
+           <select name="proceso_id" wire:model="unidad.proceso_id" class="shadow appearance-none w-full border text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"><option value="" selected>Seleccione un proceso</option>
+            @foreach ($procesos as $proceso)
+            <option value="{{ $proceso->id }}">{{ $proceso->nombre }}</option>
+            @endforeach
+            </select>
+
+            <h2>Responsable</h2>
+          
+           <select name="servidor_id" wire:model="unidad.servidor_id" class="shadow appearance-none w-full border text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"><option value="" selected>Seleccione un proceso</option>
+            @foreach ($servidores as $servidor)
+            <option value="{{ $servidor->id }}">{{ $servidor->nombre }}</option>
+            @endforeach
+            </select>            
 
         </x-slot>
         <x-slot name="footer">
