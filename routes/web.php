@@ -13,6 +13,7 @@ use App\Http\Livewire\ShowServidores;
 use App\Http\Livewire\ShowUsers;
 use App\Http\Livewire\ShowPermisos;
 use App\Http\Livewire\ShowUnidades;
+use App\Http\Livewire\ShowAprobaciones;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +42,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/pedido', CreatePedido::cl
 Route::middleware(['auth:sanctum', 'verified'])->get('/existencia', ShowExistencias::class)->name('existencia');
 Route::middleware(['auth:sanctum', 'verified'])->get('/reportes', ShowReportes::class)->name('reportes');
 Route::middleware(['auth:sanctum', 'verified'])->get('/permisos', ShowPermisos::class)->name('permisos');
+Route::middleware(['auth:sanctum', 'verified'])->get('/aprobacion', ShowAprobaciones::class)->name('aprobacion');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/unidades', ShowUnidades::class)->name('unidades');
 Route::middleware(['auth:sanctum', 'verified'])->get('/servidores', ShowServidores::class)->name('servidores');

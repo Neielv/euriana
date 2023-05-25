@@ -9,7 +9,7 @@ class Unidad extends Model
 {
 
     use HasFactory;
-    protected $fillable=['nombre','siglas','proceso_id','user_id','parent_id'];
+    protected $fillable=['nombre','siglas','proceso_id','servidor_id','parent_id'];
    
     protected $table = 'unidades';
 

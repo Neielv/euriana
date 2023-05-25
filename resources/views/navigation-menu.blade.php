@@ -29,6 +29,10 @@
                         <x-jet-nav-link href="{{ route('permisos') }}" :active="request()->routeIs('permisos')">
                             {{ __('Permisos') }}
                         </x-jet-nav-link>
+
+                        <x-jet-nav-link href="{{ route('aprobacion') }}" :active="request()->routeIs('aprobacion')">
+                            {{ __('Aprobación') }}
+                        </x-jet-nav-link>
                         
                         <x-jet-nav-link href="{{ route('usuarios') }}" :active="request()->routeIs('usuarios')">
                             {{ __('Usuarios') }}
@@ -46,6 +50,10 @@
                     <x-jet-nav-link href="{{ route('permisos') }}" :active="request()->routeIs('permisos')">
                         {{ __('Permisos') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('aprobacion') }}" :active="request()->routeIs('aprobacion')">
+                            {{ __('Aprobación') }}
+                        </x-jet-nav-link>
+                        
                     <x-jet-nav-link href="{{ route('clientes') }}" :active="request()->routeIs('clientes')">
                         {{ __('Clientes') }}
                     </x-jet-nav-link>

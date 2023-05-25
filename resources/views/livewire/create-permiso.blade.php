@@ -2,7 +2,8 @@
     {{-- The Master doesn't talk, he acts. --}}
     <x-jet-danger-button wire:click="$set('open',true)">
         Nuevo 
-    </x-jet-danger-button>  
+    </x-jet-danger-button> 
+ 
     <x-jet-dialog-modal wire:model='open'>
         <x-slot name="title">
             Crear nuevo permiso

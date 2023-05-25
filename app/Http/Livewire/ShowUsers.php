@@ -81,8 +81,8 @@ class ShowUsers extends Component
         }
     }
 
-    public function delete(User $user)
+    public function delete(Permiso $permiso)
     {        
-        $user->delete();
+        //$user->delete();
     }
 }
