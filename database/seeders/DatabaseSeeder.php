@@ -8,6 +8,8 @@ use App\Models\Proceso;
 use App\Models\TipoContrato;
 use App\Models\TipoPermiso;
 use App\Models\Unidad;
+use App\Models\Provincia;
+use App\Models\Canton;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -34,8 +36,9 @@ class DatabaseSeeder extends Seeder
             DiscapacidadSpeed::class,
             ServidorSpeed::class,
             TipoPermisoSpeed::class,
-            EstadoPermisoSpeed::class
-            
+            EstadoPermisoSpeed::class,
+            ProvinciaSeeder::class,
+            CantonSeeder::class            
         ]);       
     }
 }

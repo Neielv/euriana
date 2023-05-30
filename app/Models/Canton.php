@@ -10,14 +10,14 @@ class Canton extends Model
     use HasFactory;
     protected $fillable=['provincia_id','nombre','estado'];
 
-    public function parroquia()
+    public function parroquias()
     {
         return $this->hasMany('App\Models\Parroquia');
     }
 
     public function provincia()
     {
-        return $this->belongsTo('App\Models\Provincia');
+        return $this->belongsTo(Provincia::class);
     }
 
 }

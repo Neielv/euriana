@@ -13,7 +13,5 @@ class Parroquia extends Model
     public function canton()
     {
         return $this->belongsTo('App\Models\Canton');
-    }
-    
-
+    } 
 }
