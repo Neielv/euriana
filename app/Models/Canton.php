@@ -9,6 +9,7 @@ class Canton extends Model
 {
     use HasFactory;
     protected $fillable=['provincia_id','nombre','estado'];
+    protected $table = 'cantones';
 
     public function parroquias()
     {

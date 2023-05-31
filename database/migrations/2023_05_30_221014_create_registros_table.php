@@ -16,8 +16,8 @@ class CreateRegistrosTable extends Migration
         Schema::create('registros', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('ficha_id')->nullable();
-            $table->unsignedBigInteger('activiste_id')->nullable();
-
+            $table->unsignedBigInteger('activiste_id')->nullable();            
+            
             $table->foreign('ficha_id')
             ->references('id')->on('fichas')
             ->onDelete('set null');

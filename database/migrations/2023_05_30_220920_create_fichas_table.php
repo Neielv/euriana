@@ -17,6 +17,7 @@ class CreateFichasTable extends Migration
             $table->id();
             $table->unsignedBigInteger('parroquia_id')->nullable();
             $table->unsignedBigInteger('dirigente_id')->nullable();
+            $table->string('barrio');
             $table->timestamps();
         });
     }

@@ -10,6 +10,7 @@ use App\Models\TipoPermiso;
 use App\Models\Unidad;
 use App\Models\Provincia;
 use App\Models\Canton;
+use App\Models\Parroquia;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -38,7 +39,8 @@ class DatabaseSeeder extends Seeder
             TipoPermisoSpeed::class,
             EstadoPermisoSpeed::class,
             ProvinciaSeeder::class,
-            CantonSeeder::class            
+            CantonSeeder::class ,
+            ParroquiaSeeder::class           
         ]);       
     }
 }
