@@ -39,7 +39,7 @@ $user13= User::create(['ci'=>'1712032265','name'=>'KARINA DEL ROCÍO NÚÑEZ SAL
 $user14= User::create(['ci'=>'1712227162','name'=>'ZAPATA ROSERO SANDRA ELIZABETH','email'=>'1712227162@cnig.gob.ec','phone'=>'1712227162','password'=>bcrypt('1712227162'),'rol_id'=>2])->assignRole('Servidor');
 $user15= User::create(['ci'=>'1712336476','name'=>'VILLENA CARRERA DAPHNE ESTEFANIA','email'=>'1712336476@cnig.gob.ec','phone'=>'1712336476','password'=>bcrypt('1712336476'),'rol_id'=>2])->assignRole('Servidor');
 $user16= User::create(['ci'=>'1714042536','name'=>'DUQUE VANEGAS JANINA MARIA','email'=>'1714042536@cnig.gob.ec','phone'=>'1714042536','password'=>bcrypt('1714042536'),'rol_id'=>2])->assignRole('Servidor');
-$user17= User::create(['ci'=>'1714067137','name'=>'UNDA RODRIGUEZ GABRIELA JOHANNA','email'=>'1714067137@cnig.gob.ec','phone'=>'1714067137','password'=>bcrypt('1714067137'),'rol_id'=>2])->assignRole('Servidor');
+$user17= User::create(['ci'=>'1714067137','name'=>'UNDA RODRIGUEZ GABRIELA JOHANNA','email'=>'gunda@cnig.gob.ec','phone'=>'1714067137','password'=>bcrypt('1714067137'),'rol_id'=>2])->assignRole('Servidor');
 $user18= User::create(['ci'=>'1714628268','name'=>'QUIMBIURCO VALLADARES SILVIA FERNANDA','email'=>'1714628268@cnig.gob.ec','phone'=>'1714628268','password'=>bcrypt('1714628268'),'rol_id'=>2])->assignRole('Servidor');
 $user19= User::create(['ci'=>'1715613525','name'=>'OSORIO MENA MERICI LEONILA','email'=>'1715613525@cnig.gob.ec','phone'=>'1715613525','password'=>bcrypt('1715613525'),'rol_id'=>2])->assignRole('Servidor');
 $user20= User::create(['ci'=>'1716229255','name'=>'IBARRA JÁCOME MARÍA GABRIELA','email'=>'1716229255@cnig.gob.ec','phone'=>'1716229255','password'=>bcrypt('1716229255'),'rol_id'=>2])->assignRole('Servidor');

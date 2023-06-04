@@ -82,7 +82,7 @@
 
                         <th scope="col"
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            H_Hasta
+                            SALDO (H:M:S)
                         </th>
 
                         <th scope="col" class="relative px-6 py-3">
@@ -91,6 +91,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
+                    @if($servidor_id)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">1</div>
@@ -117,6 +118,7 @@
                             
                         </td>
                     </tr>
+                    @endif
                     @foreach ($permisos as $permiso)
                     
                         <tr>
@@ -125,33 +127,26 @@
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900"> {{ $permiso->fecha_desde}}</div>
+                                <div class="text-sm text-gray-900"> {{ $permiso->Fecha}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $permiso->tipo->nombre}}
+                                {{ $permiso->Tipo}}
                             </td>
                             
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $permiso->fecha_desde}}
+                                {{ $permiso->Debe}}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $permiso->fecha_hasta}}
-                            </td>
-
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $permiso->hora_desde}}
+                                {{ $permiso->Haber}}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $permiso->hora_hasta}}
+                                {{ $permiso->Saldo}}
                             </td>
 
+                            
 
-                            <td class="px-6 py-4 whitespace-nowrap ext-sm font-medium flex">
-                                <a class="btn btn-green ml-2" wire:click="view({{ $permiso }})">
-                                    <i class="fas fa-edit">
-                                    </i>
-                                </a>                                   
-                            </td>
+
+                            
                         </tr>
                     @endforeach
                     <!-- More people... -->

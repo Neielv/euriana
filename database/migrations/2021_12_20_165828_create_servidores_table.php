@@ -41,6 +41,7 @@ class CreateServidoresTable extends Migration
             $table->boolean('alimentacion');  
             $table->boolean('transporte'); 
             $table->boolean('recidencia'); 
+            $table->double('saldo_inicial'); 
             $table->double('saldo_vacaciones'); 
 
             $table->foreign('user_id')

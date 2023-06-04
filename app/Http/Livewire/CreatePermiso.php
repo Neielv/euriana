@@ -123,7 +123,7 @@ class CreatePermiso extends Component
                                             'fecha_hasta' => $this->fecha_hasta,
                                             'hora_desde' => Carbon::parse($this->hora_desde)->format('H:i:s'),
                                             'hora_hasta' => Carbon::parse($this->hora_hasta)->format('H:i:s'),
-                                            'minutos' => 0,
+                                            'minutos' => $minutos,
                                             'motivo' => $this->motivo
                                         ]
                                     );
@@ -152,7 +152,7 @@ class CreatePermiso extends Component
                                         'fecha_hasta' => $this->fecha_hasta,
                                         'hora_desde' => Carbon::parse($this->hora_desde)->format('H:i:s'),
                                         'hora_hasta' => Carbon::parse($this->hora_hasta)->format('H:i:s'),
-                                        'minutos' => 0,
+                                        'minutos' => $minutos,
                                         'motivo' => $this->motivo
                                     ]
                                 );
@@ -178,7 +178,7 @@ class CreatePermiso extends Component
                                     'fecha_hasta' => $this->fecha_hasta,
                                     'hora_desde' => Carbon::parse($this->hora_desde)->format('H:i:s'),
                                     'hora_hasta' => Carbon::parse($this->hora_hasta)->format('H:i:s'),
-                                    'minutos' => 0,
+                                    'minutos' => $minutos,
                                     'motivo' => $this->motivo
                                 ]
                             );
@@ -197,7 +197,7 @@ class CreatePermiso extends Component
                                     'fecha_hasta' => $this->fecha_hasta,
                                     'hora_desde' => Carbon::parse($this->hora_desde)->format('H:i:s'),
                                     'hora_hasta' => Carbon::parse($this->hora_hasta)->format('H:i:s'),
-                                    'minutos' => 0,
+                                    'minutos' => $minutos,
                                     'motivo' => $this->motivo
                                 ]
                             );
