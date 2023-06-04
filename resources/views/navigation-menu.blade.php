@@ -50,6 +50,9 @@
                     <x-jet-nav-link href="{{ route('permisos') }}" :active="request()->routeIs('permisos')">
                         {{ __('Permisos') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('kardex') }}" :active="request()->routeIs('kardex')">
+                        {{ __('Kardex') }}
+                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('aprobacion') }}" :active="request()->routeIs('aprobacion')">
                             {{ __('Aprobación') }}
                         </x-jet-nav-link>

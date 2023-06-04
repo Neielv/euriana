@@ -14,6 +14,7 @@ use App\Http\Livewire\ShowUsers;
 use App\Http\Livewire\ShowPermisos;
 use App\Http\Livewire\ShowUnidades;
 use App\Http\Livewire\ShowAprobaciones;
+use App\Http\Livewire\ShowKardex;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,6 +44,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/existencia', ShowExistenc
 Route::middleware(['auth:sanctum', 'verified'])->get('/reportes', ShowReportes::class)->name('reportes');
 Route::middleware(['auth:sanctum', 'verified'])->get('/permisos', ShowPermisos::class)->name('permisos');
 Route::middleware(['auth:sanctum', 'verified'])->get('/aprobacion', ShowAprobaciones::class)->name('aprobacion');
+Route::middleware(['auth:sanctum', 'verified'])->get('/kardex', ShowKardex::class)->name('kardex');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/unidades', ShowUnidades::class)->name('unidades');
 Route::middleware(['auth:sanctum', 'verified'])->get('/servidores', ShowServidores::class)->name('servidores');
