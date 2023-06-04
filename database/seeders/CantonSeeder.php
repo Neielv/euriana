@@ -14,9 +14,9 @@ class CantonSeeder extends Seeder
      */
     public function run()
     {
-        $Canton1= Canton::create(['provincia_id'=>'1','name'=>'Cuenca']);
-        $Canton2= Canton::create(['provincia_id'=>'1','name'=>'Canton1']);
-        $Canton3= Canton::create(['provincia_id'=>'1','name'=>'Canron2']);
-        $Canton4= Canton::create(['provincia_id'=>'1','name'=>'canton3']);
+        $Canton1= Canton::create(['provincia_id'=>'6','nombre'=>'RIOBAMBA','estado'=>true]);
+        $Canton2= Canton::create(['provincia_id'=>'6','nombre'=>'ALAUSI','estado'=>true]);
+        $Canton3= Canton::create(['provincia_id'=>'6','nombre'=>'CHUNCHI','estado'=>true]);
+        $Canton4= Canton::create(['provincia_id'=>'6','nombre'=>'GUAMOTE','estado'=>true]);
     }
 }
