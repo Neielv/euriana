@@ -31,10 +31,8 @@ class ShowKardex extends Component
 
 
     public function render()
-    {
-      
-
-        $servidores=Servidor::all();      
+    {   
+        $servidores = Servidor::orderBy('nombre', 'asc')->get();     
         return view('livewire.show-kardex',compact('servidores'));
     }
 
@@ -53,132 +51,118 @@ class ShowKardex extends Component
         $this->minutos = ((((($this->datosServidor->saldo_inicial / (60 * 8)) - $this->dias) * 8) - $this->horas) * 60);
 
 
-        $this->fechaIngreso=$this->datosServidor->fecha_ingreso;
-        /*$this->permisos = Permiso::where('servidor_id', '=', $this->servidor_id )        
-        ->orderBy('fecha_desde', 'asc')
-        ->get(); */
+        $this->fechaIngreso=$this->datosServidor->fecha_ingreso;        
         $this->permisos=$this->generarKardex($this->servidor_id,$this->datosServidor->saldo_inicial);
     }
 
-/*
-    public function generarKardex($servidor_id)
+   
+    public function generarKardex($servidor_id, $saldoInicial)
     {
         $permisos = Permiso::where('servidor_id', $servidor_id)
+            ->whereIn('tipo_id', [1, 2])  
+            ->where ('estado_id','=',2)  
             ->orderBy('fecha_desde', 'asc')
             ->get();
     
         $kardex = [];
         $mesAnterior = null;
-        $ultimoDiaMesAnterior = null;
-        Carbon::setLocale('es');
+        $saldoAcumulado = $saldoInicial;
+        $saldoAcumuladoPenal = $saldoInicial;
     
         foreach ($permisos as $permiso) {
             $mesActual = Carbon::parse($permiso->fecha_desde)->format('F Y');
     
             // Verificar cambio de meses
             if ($mesAnterior !== $mesActual) {
-                if ($mesAnterior == null) {
-                    $mesAnterior = Carbon::createFromDate(null, 1, 1);
-                }
+                if ($mesAnterior !== null) {
+                    $mesAnterior = Carbon::parse($mesAnterior)->endOfMonth();
+                    $ultimoDiaMesAnterior = $mesAnterior->copy();
+                    $mesVacaciones = $mesAnterior->copy()->addMonthNoOverflow();
     
-                $fechaInicio = Carbon::parse($permiso->fecha_desde);
-                $fechaFin = Carbon::parse($mesAnterior);
-    
-                $mesesDiferencia = $fechaInicio->diffInMonths($mesAnterior);
-    
-                // Agregar registro 'derecho a vacaciones' con haber de 20 por cada mes de diferencia
-                for ($i = 0; $i < $mesesDiferencia; $i++) {
+                    // Agregar registro 'derecho a vacaciones' con haber de 20 por cada mes de diferencia
                     $registro = new \stdClass();
-                    $mesVacaciones = $mesAnterior->copy()->addMonth();
-                    $ultimoDiaMesAnterior = $mesVacaciones->copy()->subDay();
-                    
                     $registro->Fecha = $ultimoDiaMesAnterior->format('d-m-Y');
-                    $registro->Tipo = 'derecho a vacaciones - ' . $mesVacaciones->isoFormat('MMMM');
+                    $registro->Tipo = 'Derecho a vacaciones - ' . Carbon::parse($registro->Fecha)->isoFormat('MMMM');
                     $registro->Debe = '2D 4H00';
                     $registro->Haber = '';
+                    $saldoAcumulado += 960;
+                    $saldoAcumuladoPenal +=960;
+                    $registro->Saldo = $this->formatoDHM($saldoAcumulado);
+                    $registro->SaldoPenal=$this->formatoDHM($saldoAcumuladoPenal);
+                    $registro->Penalidad = '' ;
                     $kardex[] = $registro;
-        
-                    $mesAnterior = $mesVacaciones;
+    
+                    
                 }
-
-            }    
+    
+                $mesAnterior = $mesActual;
+            }
+    
             // Agregar registro de permiso
             $registro = new \stdClass();
             $registro->Fecha = Carbon::parse($permiso->fecha_desde)->format('d-m-Y');
             $registro->Tipo = $permiso->tipo->nombre;
             $registro->Debe = '';
             $registro->Haber = $this->formatoDHM($permiso->minutos);
+            $saldoAcumulado -= $permiso->minutos;
+            $saldoAcumuladoPenal-=$permiso->minutos*1.3636;
+            $registro->Saldo = $this->formatoDHM($saldoAcumulado);
+            $registro->Penalidad = $this->formatoDHM($permiso->minutos*1.3636);
+            $registro->SaldoPenal=$this->formatoDHM($saldoAcumuladoPenal);
             $kardex[] = $registro;
-    
-            $mesAnterior = $mesActual;
-            $ultimoDiaMesAnterior = $permiso->fecha_desde;
         }
     
+        // Acreditar el derecho a vacaciones para el último mes
+        if ($mesAnterior !== null) {
+            $mesAnterior = Carbon::parse($mesAnterior)->endOfMonth();
+            $ultimoDiaMesAnterior = $mesAnterior->copy();
+            $mesVacaciones = $mesAnterior->copy()->addMonthNoOverflow();
+    
+            // Agregar registro 'derecho a vacaciones' para el último mes
+            $registro = new \stdClass();
+            $registro->Fecha = $ultimoDiaMesAnterior->format('d-m-Y');
+            $registro->Tipo = 'Derecho a vacaciones - ' . Carbon::parse($registro->Fecha)->isoFormat('MMMM');
+            $registro->Debe = '2D 4H00';
+            $registro->Haber = '';            
+            $registro->Penalidad='';
+            $saldoAcumuladoPenal +=960;
+            $saldoAcumulado += 960;
+            $registro->Saldo = $this->formatoDHM($saldoAcumulado);
+            $registro->SaldoPenal=$this->formatoDHM($saldoAcumuladoPenal);
+            $kardex[] = $registro;
+        }
+
+         // Acreditar el derecho a vacaciones para los meses posteriores al último registro 
+        if (isset($mesAnterior)) {
+            $mesAnterior = $mesAnterior->copy()->addMonthNoOverflow();            
+        } else {
+            $mesAnterior = Carbon::now()->startOfYear();
+        }
+
+        $ultimoMes = Carbon::parse($mesAnterior)->format('F Y');
+        $mesActual = Carbon::now()->format('F Y');
+        while ($ultimoMes !== $mesActual) {
+            $ultimoDiaMesAnterior = Carbon::parse($ultimoMes)->endOfMonth();
+            $mesVacaciones = Carbon::parse($ultimoMes)->addMonthNoOverflow();
+
+            $registro = new \stdClass();
+            $registro->Fecha = $ultimoDiaMesAnterior->format('d-m-Y');
+            $registro->Tipo = 'Derecho a vacaciones - ' . Carbon::parse($registro->Fecha)->isoFormat('MMMM');
+            $registro->Debe = '2D 4H00';
+            $registro->Haber = '';
+            $saldoAcumuladoPenal += 960;
+            $saldoAcumulado += 960;
+            $registro->Penalidad = '';
+            $registro->Saldo = $this->formatoDHM($saldoAcumulado);
+            $registro->SaldoPenal = $this->formatoDHM($saldoAcumuladoPenal);
+            $kardex[] = $registro;
+
+            $ultimoMes = $mesVacaciones->format('F Y');
+        }
         return $kardex;
-    }
-    */
-
-    public function generarKardex($servidor_id, $saldoInicial)
-{
-    $permisos = Permiso::where('servidor_id', $servidor_id)
-        ->orderBy('fecha_desde', 'asc')
-        ->get();
-
-    $kardex = [];
-    $mesAnterior = null;
-    $ultimoDiaMesAnterior = null;
-    Carbon::setLocale('es');
-    $saldoAcumulado = $saldoInicial;
-
-    foreach ($permisos as $permiso) {
-        $mesActual = Carbon::parse($permiso->fecha_desde)->format('F Y');
-
-        // Verificar cambio de meses
-        if ($mesAnterior !== $mesActual) {
-            if ($mesAnterior == null) {
-                $mesAnterior = Carbon::createFromDate(null, 1, 1);
-            }
-
-            $fechaInicio = Carbon::parse($permiso->fecha_desde);
-            $fechaFin = Carbon::parse($mesAnterior);
-
-            $mesesDiferencia = $fechaInicio->diffInMonths($mesAnterior);
-
-            // Agregar registro 'derecho a vacaciones' con haber de 20 por cada mes de diferencia
-            for ($i = 0; $i < $mesesDiferencia; $i++) {
-                $registro = new \stdClass();
-                $mesVacaciones = $mesAnterior->copy()->addMonth();
-                $ultimoDiaMesAnterior = $mesVacaciones->copy()->subDay();
-
-                $registro->Fecha = $ultimoDiaMesAnterior->format('d-m-Y');
-                $registro->Tipo = 'derecho a vacaciones - ' . $mesVacaciones->isoFormat('MMMM');
-                $registro->Debe = '2D 4H00';
-                $registro->Haber = '';
-                $registro->Saldo = $saldoAcumulado;
-                $kardex[] = $registro;
-
-                $saldoAcumulado += 20;
-                $mesAnterior = $mesVacaciones;
-            }
-
-        }
-
-        // Agregar registro de permiso
-        $registro = new \stdClass();
-        $registro->Fecha = Carbon::parse($permiso->fecha_desde)->format('d-m-Y');
-        $registro->Tipo = $permiso->tipo->nombre;
-        $registro->Debe = '';
-        $registro->Haber = $this->formatoDHM($permiso->minutos);
-        $saldoAcumulado -= $permiso->minutos;
-        $registro->Saldo = $saldoAcumulado;
-        $kardex[] = $registro;
-
-        $mesAnterior = $mesActual;
-        $ultimoDiaMesAnterior = $permiso->fecha_desde;
-    }
-
-    return $kardex;
 }
+
+    
 
 
     public function formatoDHM($minutosTotal)
