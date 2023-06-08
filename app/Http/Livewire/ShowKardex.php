@@ -7,6 +7,7 @@ use App\Models\Servidor;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade as PDF;  
 
 class ShowKardex extends Component
 {
@@ -51,13 +52,23 @@ class ShowKardex extends Component
         $this->minutos = ((((($this->datosServidor->saldo_inicial / (60 * 8)) - $this->dias) * 8) - $this->horas) * 60);
 
 
-        $this->fechaIngreso=$this->datosServidor->fecha_ingreso;        
-        $this->permisos=$this->generarKardex($this->servidor_id,$this->datosServidor->saldo_inicial);
+        $this->fechaIngreso=$this->datosServidor->fecha_ingreso;    
+        $fechaIngreso = Carbon::parse($this->datosServidor->fecha_ingreso);   
+        $this->permisos=$this->generarKardex($this->servidor_id,$this->datosServidor->saldo_inicial,$fechaIngreso);
     }
 
    
-    public function generarKardex($servidor_id, $saldoInicial)
-    {
+    public function generarKardex($servidor_id, $saldoInicial,$fechaIngreso)
+    {       
+        
+        $mesActual = Carbon::now();
+        
+        if ($fechaIngreso->greaterThan(Carbon::parse('31-01-' . $mesActual->year))) {
+            $mesAnterior = $fechaIngreso->copy()->endOfMonth();
+        } else {
+            $mesAnterior = Carbon::now()->startOfMonth();
+        }
+
         $permisos = Permiso::where('servidor_id', $servidor_id)
             ->whereIn('tipo_id', [1, 2])  
             ->where ('estado_id','=',2)  
@@ -90,8 +101,7 @@ class ShowKardex extends Component
                     $registro->Saldo = $this->formatoDHM($saldoAcumulado);
                     $registro->SaldoPenal=$this->formatoDHM($saldoAcumuladoPenal);
                     $registro->Penalidad = '' ;
-                    $kardex[] = $registro;
-    
+                    $kardex[] = $registro;  
                     
                 }
     
@@ -181,8 +191,26 @@ class ShowKardex extends Component
     
         return $formatoDHM;
     }
-    public function view(Permiso $permiso)
-    {        
+
+    public function generarReporte()
+    {
+
+        $datos_kardex= $this->permisos;
         
+        
+        $data = [                    
+            'cedula' =>$this->datosServidor->cedula,
+            'nombre' =>$this->datosServidor->nombre,
+            'unidad' =>$this->datosServidor->unidad->nombre,
+            'fecha_ingreso'=>$this->datosServidor->fecha_ingreso,
+            'saldo_inicial'=>$this->formatoDHM($this->datosServidor->saldo_inicial)
+       ];
+        
+       $pdfContent = PDF::loadView('livewire.pdf.kardex',$data,compact('datos_kardex'))->output();
+        
+        return response()->streamDownload(
+        fn () => print($pdfContent),
+        "Kardex.pdf");
     }
+
 }

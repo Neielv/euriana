@@ -22,11 +22,20 @@
                     <x-jet-input-error for="servidor_id"/>  
 
             </x-jet-label>
-            <a class="btn btn-blue" wire:click="buscar()">
+            <a class="btn btn-blue mr-2" wire:click="buscar()">
                 <i class="fas fa-search">
                     Buscar
                 </i>
-            </a>    
+            </a> 
+
+            
+            <a class="btn btn-red" wire:click="generarReporte()">
+                            <i class="fas fa-print">
+                                Imprimir
+                            </i>
+            </a>
+           
+            
 
         </div>
         <div class="px-3  py-6 flex items-center">
@@ -109,7 +118,7 @@
                 <tbody class="bg-white divide-y divide-gray-200 " style="line-height: 0.3;">
                     @if($servidor_id)
                     <tr>
-                        <td class="px-2 py-1 whitespace-nowrap">
+                        <td class="px-2 py-1 whitespace-nowrap ">
                             <div class="text-sm text-gray-900">1</div>
                         </td>
 
@@ -144,48 +153,48 @@
                         </td>
                     </tr>
                     @endif
-                    @foreach ($permisos as $permiso)
                     
-                        <tr class="my-2">
-                            <td class="px-2 py-1 whitespace-nowrap">
-                                <div class="text-sm text-gray-900"> {{ $loop->iteration+1 }}</div>
-                            </td>
+                    @if (count($permisos) > 0)
+                        @foreach ($permisos as $permiso)
+                            @if (is_object($permiso))
+                    
+                                <tr class="my-2">
+                                    <td class="px-2 py-1 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900"> {{ $loop->iteration+1 }}</div>
+                                    </td>
 
-                            <td class="px-2 py-1 whitespace-nowrap">
-                                <div class="text-sm text-gray-900"> {{ $permiso->Fecha}}</div>
-                            </td>
-                            <td class="px-3 py-1 whitespace-nowrap">
-                                {{ $permiso->Tipo}}
-                            </td>
-                            
-                            <td class="px-3 py-1 whitespace-nowrap">
-                                {{ $permiso->Debe}}
-                            </td>
-                            <td class="px-3 py-1 whitespace-nowrap">
-                                {{ $permiso->Haber}}
-                            </td>
-                            <td class="px-3 py-1 whitespace-nowrap">
-                                {{ $permiso->Saldo}}
-                            </td>
-                            <td class="px-3 py-1 whitespace-nowrap">
-                                
-                            </td>
-                            <td class="px-3 py-1 whitespace-nowrap">
-                                |
-                            </td>
-                            <td class="px-3 py-1 whitespace-nowrap">
-                                {{ $permiso->Penalidad}}
-                            </td>
-                            <td class="px-3 py-1 whitespace-nowrap">
-                                {{ $permiso->SaldoPenal}}
-                            </td>
-
-                            
-
-
-                            
-                        </tr>
-                    @endforeach
+                                    <td class="px-2 py-1 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900"> {{ $permiso->Fecha}}</div>
+                                    </td>
+                                    <td class="px-3 py-1 whitespace-nowrap">
+                                        {{ $permiso->Tipo}}
+                                    </td>
+                                    
+                                    <td class="px-3 py-1 whitespace-nowrap">
+                                        {{ $permiso->Debe}}
+                                    </td>
+                                    <td class="px-3 py-1 whitespace-nowrap">
+                                        {{ $permiso->Haber}}
+                                    </td>
+                                    <td class="px-3 py-1 whitespace-nowrap">
+                                        {{ $permiso->Saldo}}
+                                    </td>
+                                    <td class="px-3 py-1 whitespace-nowrap">
+                                        
+                                    </td>
+                                    <td class="px-3 py-1 whitespace-nowrap">
+                                        |
+                                    </td>
+                                    <td class="px-3 py-1 whitespace-nowrap">
+                                        {{ $permiso->Penalidad}}
+                                    </td>
+                                    <td class="px-3 py-1 whitespace-nowrap">
+                                        {{ $permiso->SaldoPenal}}
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                    @endif 
                     <!-- More people... -->
                 </tbody>
             </table>

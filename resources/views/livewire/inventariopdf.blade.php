@@ -24,7 +24,7 @@
 
         <td style="border: 1px solid black;"><strong> Stock </strong></td>
     </tr>
-    @foreach ($datos_detalle as $pedido)
+    @foreach ($datos_kardex as $pedido)
                             <tr>
                             
                                 <td style="border: 1px solid black;">
